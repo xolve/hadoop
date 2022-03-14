@@ -1,29 +1,19 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
-trigger:
-- trunk
-
-pool:
-  vmImage: ubuntu-latest
-
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
-
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-    apt update
-    apt install openjdk-8-jdk
-    apt install git
-    apt install maven
-    apt-get install zlib1g-dev
-    apt-get install libssl-dev
-    cd hadoop/hadoop-maven-plugins
-    mvn clean install
-    cd ../hadoop-tools/hadoop-azure
-    mvn -T 1C -D-tests=abfs clean test
-  displayName: 'Run a multi-line script'
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: ubuntu-latest
+    steps:
+    - task: CmdLine@2
+      inputs:
+            script: |
+              sudo apt update
+              sudo apt install openjdk-8-jdk
+              sudo apt install git
+              sudo apt install maven
+              sudo apt install pcregrep
+              sudo apt-get install zlib1g-dev
+              sudo apt-get install libssl-dev
